@@ -1,0 +1,30 @@
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import numpy as np
+
+axes = [5, 5, 5]
+data = np.ones(axes, dtype=bool)
+alpha = 0.7
+colors = np.empty(axes + [4], dtype=np.float32)
+colors[0] = [1, 0, 0, alpha]
+colors[1] = [0, 1, 0, alpha]
+colors[2] = [0, 0, 1, alpha]
+colors[3] = [1, 1, 0, alpha]
+colors[4] = [0, 1, 1, alpha]
+
+colors[0, 1:-1, 1:-1, 3] = 1
+colors[1:-1, 0, 1:-1, 3] = 1
+colors[1:-1, 1:-1, 0, 3] = 1
+
+data[-1] = True
+data[-2] = False
+data[-3] = False
+data[-4] = False
+data[-5] = True
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+ax.voxels(data, facecolors=colors, edgecolors='pink')
+ax.view_init(100, 0)
+plt.show()

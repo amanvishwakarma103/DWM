@@ -1,0 +1,56 @@
+CREATE TABLE employees (
+    first_name VARCHAR2(50),
+    last_name VARCHAR2(50),
+    email VARCHAR2(100) UNIQUE,
+    hire_date DATE,
+    salary NUMBER(10, 2)
+);
+
+INSERT INTO employees (first_name, last_name, email, hire_date, salary) VALUES
+('John', 'Doe', 'john.doe@example.com', TO_DATE('2020-01-15', 'YYYY-MM-DD'), 60000),
+('Jane', 'Smith', 'jane.smith@example.com', TO_DATE('2019-03-22', 'YYYY-MM-DD'), 75000),
+('Alice', 'Johnson', 'alice.johnson@example.com', TO_DATE('2021-07-10', 'YYYY-MM-DD'), 58000),
+('Bob', 'Brown', 'bob.brown@example.com', TO_DATE('2018-11-05', 'YYYY-MM-DD'), 82000);
+
+------------------------------------------------------------------------------
+Roll Up
+SELECT
+    EXTRACT(YEAR FROM hire_date) AS Hire_Year,
+    COUNT(email) AS Employees_Hired,
+    SUM(salary) AS Total_Salary_By_Year
+FROM
+    employees
+GROUP BY
+    EXTRACT(YEAR FROM hire_date);
+----------------------------------------------------------------------
+
+Drill down
+
+SELECT
+    first_name,
+    last_name,
+    salary
+FROM
+    employees
+WHERE
+    EXTRACT(YEAR FROM hire_date) = 2020;
+-------------------------------------------------------------------------
+Slice
+
+SELECT
+    *
+FROM
+    employees
+WHERE
+    EXTRACT(YEAR FROM hire_date) = 2020;
+---------------------------------------------------------------------------
+Dice
+
+SELECT
+    *
+FROM
+    employees
+WHERE
+    EXTRACT(YEAR FROM hire_date) IN (2019, 2020)
+    AND salary > 60000;
+---------------------------------------------------------------------- 

@@ -1,0 +1,33 @@
+Step1
+!pip install networkx matplotlib
+
+Step 2
+import networkx as nx
+import matplotlib.pyplot as plt
+
+G = nx.DiGraph()
+
+edges_list = [
+    (0, 0), (0, 7),
+    (1, 1), (1, 4),
+    (2, 0), (2, 1),
+    (3, 2), (3, 7),
+    (4, 1), (4, 2),
+    (5, 1), (5, 3),
+    (6, 0), (6, 1),
+    (7, 1), (7, 2)
+]
+G.add_edges_from(edges_list)
+
+Step 3
+nx.draw_circular(G, with_labels=True, node_color='skyblue',
+                 node_size=2000, font_size=20, font_weight='bold',
+                 arrows=True, arrowstyle='->', arrowsize=20)
+plt.show()
+
+Step 4
+pagerank_scores = nx.pagerank(G)
+
+print("--- PageRank Scores ---")
+for node, score in pagerank_scores.items():
+    print(f"Node {node}: {score:.8f}")

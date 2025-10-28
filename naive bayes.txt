@@ -1,0 +1,45 @@
+Step 1
+from google.colab import files
+uploaded = files.upload()
+
+Step 2
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.naive_bayes import GaussianNB
+import io
+
+# File ka naam yahan daalna (jo aapne upload kiya hai)
+file_name = 'playsheet_dataset.csv'
+
+df = pd.read_csv(io.BytesIO(uploaded[file_name]))
+print("--- Data Load Ho Gaya ---")
+print(df.head())
+
+Step 3
+Numerics = LabelEncoder()
+
+inputs = df.drop('Play', axis='columns')
+target = df['Play']
+
+inputs['outlook_n'] = Numerics.fit_transform(inputs['Outlook'])
+inputs['Temp_n'] = Numerics.fit_transform(inputs['Temp'])
+inputs['Humidity_n'] = Numerics.fit_transform(inputs['Humidity'])
+inputs['windy_n'] = Numerics.fit_transform(inputs['Windy'])
+
+inputs_n = inputs.drop(['Outlook', 'Temp', 'Humidity', 'Windy'], axis='columns')
+
+print("--- Data Encode Hone Ke Baad ---")
+print(inputs_n.head())
+
+Step 4
+Classifier = GaussianNB()
+Classifier.fit(inputs_n, target)
+print("Model Successfully Train Ho Gaya Hai.")
+
+Step 5
+score = Classifier.score(inputs_n, target)
+print(f"Model Ki Accuracy: {score}")
+
+Step 6
+prediction = Classifier.predict([[0, 0, 0, 1]])
+print(f"Test Prediction [0,0,0,1] ke liye: {prediction}")
