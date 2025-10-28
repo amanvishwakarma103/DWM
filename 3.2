@@ -1,0 +1,26 @@
+data = pd.DataFrame({
+    'Age': [20, 21, np.nan, 23, 19],
+    'Gender': ['Male', 'Female', 'Female', np.nan, 'Male'],
+    'Marks': [85, 90, 75, np.nan, 60]
+})
+print(data)
+
+data['Age'].fillna(data['Age'].mean(), inplace=True)
+data['Marks'].fillna(data['Marks'].mean(), inplace=True)
+data['Gender'].fillna(data['Gender'].mode()[0], inplace=True)
+print(data)
+
+data.drop_duplicates(inplace=True)
+
+data_encoded = pd.get_dummies(data, drop_first=True)
+print(data_encoded)
+
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+data_scaled = scaler.fit_transform(data_encoded)
+print(data_scaled)
+
+from sklearn.preprocessing import MinMaxScaler
+normalizer = MinMaxScaler()
+data_normalized = normalizer.fit_transform(data_encoded)
+print(data_normalized)
