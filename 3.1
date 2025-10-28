@@ -1,0 +1,25 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+data = pd.read_csv('students.csv')
+print(data.head())
+
+print(data.info())
+print(data.describe())
+print(data.shape)
+print(data.columns)
+
+print(data.isnull().sum())
+
+print(data['City'].value_counts())
+print(data['Gender'].value_counts())
+
+sns.countplot(x='City', data=data)
+plt.title("Number of Students by City")
+plt.show()
+
+sns.histplot(data['Marks'], kde=True)
+plt.title("Distribution of Marks")
+plt.show()
